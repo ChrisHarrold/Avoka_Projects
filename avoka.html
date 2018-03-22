@@ -1,69 +1,94 @@
-<HTML>
-    <HEAD><TITLE>Choice</TITLE>
-    
-    <SCRIPT Language="javascript">
-    
-    // sets up database of links - SECTION A1
-    muresources=""
-    muresources["classical"]= "<A HREF='http://net.com/classical.file1'>Meditative classical music<A><P>
-     <A HREF='http://net.com/classical.file2'>Provoking classical music<A>"
-    muresources["rock"] = "<A HREF='http://net.com/rock.file1'>Popular rock music<A><P>
-     <A HREF='http://net.com/rock.file2'>Exciting rock music<A>"
-    muresources["ethnic"] = "<A HREF='http://net.com/mexican.file1'>Mexican music<A><P>
-     <A HREF='http://net.com/Indian.file2'>Indian music<A>"
-    
-    function getLink() {
-    // constructs unique page using name and choice of music - SECTION A.2
-    temp = muresources[choice]
-    temp2 = "<TITLE>Custom Links</TITLE><H3>" +document.m.pername.value+", here are some
-    links for you</H3><P>"+temp
-    }
-    
-    function writeIt(){
-    // creates new window to display page - SECTION A.3
-    diswin = window.open();
-    diswin.document.open();
-    diswin.document.write(temp2);
-    diswin.document.close()
-    }
-    
-    function doAll(){
-    // master routine calls other functions - SECTION A.4
-    getLink();
-    writeIt()
-    }
-    </SCRIPT>
-    
-    </HEAD>
-    <BODY >
-    
-    <!-- Sets up basic input form SECTION B -->
-    <H3> Choose the kind of music you prefer<BR>
-    and this page will fetch links of interest to you</H3>
-    
-    <HR>
-    
-    <FORM NAME="m" >
-    Choose a kind of music<P>
-    <INPUT TYPE="radio" NAME="mus" VALUE="classical" OnClick="choice='classical'"
-    >Classical <BR>
-    <INPUT TYPE="radio" NAME="mus" VALUE="rock" OnClick="choice='rock'">Rock<BR>
-    <INPUT TYPE="radio" NAME="mus" VALUE="ethnic"
-    OnClick="choice='ethnic'">Ethnic<BR>
-    <HR>
-    Please type your name<P>
-    <INPUT TYPE="text" NAME="pername" SIZE=25>
-    <HR>
-    <INPUT TYPE="button" NAME="sub" VALUE="Show me links" OnClick=doAll()>
-    <INPUT TYPE="reset" NAME="res" >
-    </FORM>
-    
-    <SCRIPT>
-    // sets defaults - SECTION C
-    choice = "classical"
-    document.m.mus[0].checked = true
-    document.m.mus[1].checked = false
-    document.m.mus[2].checked = false
-    </SCRIPT>
-    </BODY>
-    </HTML>
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Quick and Dirty API Calls</title> 
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type"> 
+<meta content="utf-8" http-equiv="encoding"> 
+<style type="text/css"> 
+.music {  
+    display: none; 
+    font-weight: bold; 
+    font-style: italic; 
+} 
+</style> 
+</head> 
+<body> 
+<div class="hideme" id="hideform">
+<h3> Choose the kind of music you prefer and this page will fetch links of interest to you</h3> 
+<hr/> 
+<form id="chooser">
+Choose a kind of music:
+<p> 
+    <label> 
+        <input type="radio" name="mus" value="classical"/> Classical  
+    </label><br/> 
+    <label> 
+        <input type="radio" name="mus" value="rock"/> Rock  
+    </label><br/> 
+    <label> 
+        <input type="radio" name="mus" value="ethnic"/> Ethnic  
+    </label><br/> 
+</p> 
+<hr/> 
+Please type your name: 
+<p> 
+    <input type="text" name="pername" size="25"/> 
+</p>
+<input type="button" name="subm" value="Show me links"> 
+</div>
+<div class="hideme" id="greeting" display="false"></div>
+<div class="music" id="classical"> 
+        <a href="http://net.com/classical.file1">Meditative vocal music</a><br/> 
+        <a HREF="http://net.com/classical.file2">Provoking classical music</a><br/> 
+</div> 
+<div class="music" id="rock"> 
+    <p><a href="http://net.com/rock.file1">Popular rock music</a><br/> 
+    <a href="http://net.com/rock.file2">Exciting rock music</a></p>
+</div> 
+<div class="music" id="ethnic"> 
+    <a href="http://net.com/mexican.file1">Mexican</a><br/> 
+    <a href="http://net.com/Indian.file2">Indian music</a><br/>
+</div> 
+<input type="reset" name="res"> 
+</form>
+<br>
+<!-- <a href="#" onclick="alert('Hi')">Click Me</a> -->
+<hr/>
+
+<script type="text/javascript"> 
+var form = document.getElementById("chooser"); 
+var currentMusic = "classical";  
+
+form.subm.onclick = function( ) 
+{ 
+    // hide the prior choice of music 
+    document.getElementById(currentMusic).style.display = "none"; 
+    // run through all the radio buttons... 
+    for ( var i = 0; i < form.mus.length; ++i ) 
+    { 
+        if ( form.mus[i].checked ) 
+        { 
+            // when we find the one that was checked,  
+            // save it as the new "currentMusic" 
+            // and then show the <div> with that id 
+            currentMusic = form.mus[i].value;
+            person = form.pername.value;
+            document.getElementById(currentMusic).style.display = "block"; 
+            document.getElementById("hideform").style.display = "none";
+            var greet=document.getElementById("greeting")
+            greet.innerHTML="<H3>Thanks "+ person +". Here are your links:</H3>"
+            // no point in going further in the for loop, so quit 
+            return; 
+        } 
+    } 
+} 
+form.res.onclick = function( ) 
+{ 
+    // on form reset, remember to turn off the currentMusic display 
+    document.getElementById(currentMusic).style.display = "none";
+    document.getElementById("hideform").style.display = "block";
+    document.getElementById("greeting").style.display = "none"; 
+}    
+</script> 
+</body> 
+</html>  
