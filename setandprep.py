@@ -1,8 +1,8 @@
+#!/usr/bin/env python
 import ntplib
 import time
 import mysql.connector
 import datetime
-import time
 import sys
 import subprocess
  
