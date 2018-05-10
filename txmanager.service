@@ -1,5 +1,6 @@
 [Unit]
 Description=Avoka Transact Manager
+Requires=mysqld.service
 After=mysqld.service
 
 [Service]
