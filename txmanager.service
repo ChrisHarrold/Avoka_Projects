@@ -1,0 +1,12 @@
+[Unit]
+Description=Avoka Transact Manager
+After=mysqld.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/etc/init.d/txmanager start
+ExecStop=/etc/init.d/txmanager stop
+
+[Install]
+WantedBy=multi-user.target
