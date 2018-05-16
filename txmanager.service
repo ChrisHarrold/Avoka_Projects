@@ -2,6 +2,7 @@
 Description=Avoka Transact Manager
 Requires=mysqld.service
 After=mysqld.service
+Wants=mysqld.service
 
 [Service]
 Type=simple
